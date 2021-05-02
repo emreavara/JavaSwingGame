@@ -1,6 +1,7 @@
 package brickBracker;
 
 import java.awt.Color;
+import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Rectangle;
@@ -55,6 +56,11 @@ public class GamePlay extends JPanel implements KeyListener, ActionListener{
 		g.fillRect(  0,  0,692,  3);
 		g.fillRect(691,  0,  3,  592);
 		
+		// scores
+		g.setColor(Color.white);
+		g.setFont(new Font("serif", Font.BOLD, 25));
+		g.drawString(""+score, 590, 30);
+		
 		// set paddle
 		g.setColor(Color.green);
 		g.fillRect(playerX, 550, 100, 8);
@@ -107,10 +113,41 @@ public class GamePlay extends JPanel implements KeyListener, ActionListener{
 			if(new Rectangle(ballPosX, ballPosY, 20,20).intersects(new Rectangle(playerX, 550,100,8))) {
 				ballYDir = -ballYDir;
 			}
+			A : for(int i =0; i< map.map.length; i++) {
+				for(int j =0; j< map.map[0].length; j++) {
+					if(map.map[i][j] > 0) {
+						int brickX = j*map.brickWidth + 80;
+						int brickY = i*map.brickHeight + 50;
+						int brickWidth = map.brickWidth;
+						int brickHeight = map.brickHeight;
+						
+						Rectangle rect = new Rectangle(brickX, brickY, brickWidth, brickHeight);
+						Rectangle ballRect = new Rectangle(ballPosX, ballPosY, 20,20);
+						Rectangle brickRext = rect;
+						
+						if(ballRect.intersects(brickRext)) {
+							map.setBrickValue(0, i, j);
+							totalBricks--;
+							score+=5;
+							if(ballPosX + 19 <= brickRext.x || ballPosX +1 >= brickRext.x + brickRext.width) {
+								ballXDir = - ballXDir;
+							} else {
+								ballYDir = -ballYDir;
+							}
+							break A;
+							
+						}
+						
+					}
+				}
+			}
 		
 			ballPosX += ballXDir;
 			ballPosY += ballYDir;
 			if(ballPosX < 0) {
+				ballXDir = -ballXDir;
+			}
+			if(ballPosX > 600) {
 				ballXDir = -ballXDir;
 			}
 			if(ballPosY < 0) {
