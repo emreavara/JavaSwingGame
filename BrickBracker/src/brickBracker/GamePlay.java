@@ -2,6 +2,7 @@ package brickBracker;
 
 import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -27,8 +28,11 @@ public class GamePlay extends JPanel implements KeyListener, ActionListener{
 	private int ballXDir = -1;
 	private int ballYDir = -2;
 	
+	private MapGenerator map;
+	
 	
 	public GamePlay() {
+		map = new MapGenerator(3,7);
 		addKeyListener(this);
 		setFocusable(true);
 		setFocusTraversalKeysEnabled(false);
@@ -41,6 +45,9 @@ public class GamePlay extends JPanel implements KeyListener, ActionListener{
 		//  background
 		g.setColor(Color.black);
 		g.fillRect(1, 1, 692, 592);
+		
+		// drawing map
+		map.draw((Graphics2D)g);
 		
 		// borders
 		g.setColor(Color.yellow);
