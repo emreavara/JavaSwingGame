@@ -1,5 +1,6 @@
 package brickBracker;
 
+import java.awt.Graphics;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
@@ -14,7 +15,7 @@ public class GamePlay extends JPanel implements KeyListener, ActionListener{
 	private int totalBricks = 21;
 	
 	
-	private Timer time;
+	private Timer timer;
 	private int delay = 8;
 	
 	private int playerX = 310;
@@ -25,8 +26,15 @@ public class GamePlay extends JPanel implements KeyListener, ActionListener{
 	
 	
 	public GamePlay() {
+		addKeyListener(this);
+		setFocusable(true);
+		setFocusTraversalKeysEnabled(false);
+		timer = new Timer(delay, this);
+		timer.start();
 		
 	}
+	
+
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
