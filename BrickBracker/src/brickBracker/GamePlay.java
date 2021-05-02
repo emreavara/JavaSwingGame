@@ -1,5 +1,6 @@
 package brickBracker;
 
+import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -34,7 +35,27 @@ public class GamePlay extends JPanel implements KeyListener, ActionListener{
 		
 	}
 	
-
+	public void paint(Graphics g) {
+		//  background
+		g.setColor(Color.black);
+		g.fillRect(1, 1, 692, 592);
+		
+		// borders
+		g.setColor(Color.yellow);
+		g.fillRect(  0,  0,  3,592);
+		g.fillRect(  0,  0,692,  3);
+		g.fillRect(691,  0,  3,  592);
+		
+		// set paddle
+		g.setColor(Color.green);
+		g.fillRect(playerX, 550, 100, 8);
+		
+		// the ball
+		g.setColor(Color.yellow);
+		g.fillRect(ballPosX, ballPosY, 20, 20);
+		
+		
+	}
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
