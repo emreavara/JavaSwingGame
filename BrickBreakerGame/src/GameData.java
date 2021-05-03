@@ -40,8 +40,8 @@ public class GameData{
 	int paddleHeight     = 10;
 	int paddleWidth      = 120;
 	int paddleVelocity   = 30;
-	int paddleX			 = mainWindowWidth/2;
-	int paddleY          = middlePanelHeight - 20;
+	int paddlePosX	     = mainWindowWidth/2;
+	int paddlePosY       = middlePanelHeight - 20;
 	
 	// icons
 	
@@ -85,4 +85,21 @@ public class GameData{
 		ballPosY         = 10;
 	}
 	
+	public void movePaddleLeft() {
+		if(paddlePosX < 0) {
+			paddlePosX = 0;
+		} else {
+			paddlePosX = paddlePosX - paddleVelocity;
+		}
+		
+	}
+	
+	public void movePaddleRight() {
+		gameStatus = GameStatus.playing;
+		if(paddlePosX > 904) {
+			paddlePosX = 904;
+		} else {
+			paddlePosX = paddlePosX + paddleVelocity;
+		}
+	}
 }

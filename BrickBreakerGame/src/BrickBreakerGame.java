@@ -10,7 +10,7 @@ import javax.swing.Timer;
 
 enum GameStatus{
 	idle,
-	plaing,
+	playing,
 	gameOver
 };
 
