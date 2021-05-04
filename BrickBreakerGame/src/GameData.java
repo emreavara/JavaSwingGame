@@ -34,12 +34,20 @@ public class GameData{
 	
 	// Game
 	int score           = 0;
-	int remaingLife     = 3;
+	int remainingLife   = 3;
 	int delay           = 20;
+	
+	// Score
+	int scoreX          = 75;
+	int scoreY          = 60;
+	
+	// Life
+	int remainingLifeX  = mainWindowWidth/2 - 50;
+	int remainingLifeY  = 60;
 	
 	// Image Icons
 	ImageIcon starImage = new ImageIcon("img/star.png");
-	ImageIcon ufoImage = new ImageIcon("img/ufo.png");
+	ImageIcon ufoImage  = new ImageIcon("img/ufo.png");
 	ImageIcon meteorImage = new ImageIcon("img/meteor.png");
 	
 	// icons
@@ -86,9 +94,9 @@ public class GameData{
 		
 	public void resetGame() {
 		// Game
-		gameStatus = GameStatus.idle;
-		score = 0;
-		remaingLife = 3;
+		gameStatus       = GameStatus.idle;
+		score            = 0;
+		remainingLife    = 3;
 		
 		// Ball
 		ballVelocityX    = 4;

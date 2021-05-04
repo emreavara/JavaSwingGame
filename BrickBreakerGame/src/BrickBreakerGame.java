@@ -18,14 +18,14 @@ public class BrickBreakerGame extends JFrame {
 
 	public static void main(String[] args) {
 		
-		GameData gameData = GameData.getInstance();
+		GameData gameData       = GameData.getInstance();
 		
 		UpperPanel upperPanel   = new UpperPanel();
 		MiddlePanel middlePanel = new MiddlePanel();
-		LowerPanel lowerPanel   = new LowerPanel();
+		LowerPanel lowerPanel     = new LowerPanel();
 		
 		
-		JFrame gameWindow = new JFrame();
+		JFrame gameWindow       = new JFrame();
 		gameWindow.setLayout(new BorderLayout());
 		gameWindow.setTitle("Break Brick Game");
 		gameWindow.setSize(gameData.mainWindowWidth, gameData.mainWindowHeight);
@@ -35,7 +35,6 @@ public class BrickBreakerGame extends JFrame {
 		gameWindow.add(upperPanel, BorderLayout.NORTH);
 		gameWindow.add(middlePanel, BorderLayout.CENTER);
 		gameWindow.add(lowerPanel, BorderLayout.SOUTH);
-		
 		gameWindow.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
 	}

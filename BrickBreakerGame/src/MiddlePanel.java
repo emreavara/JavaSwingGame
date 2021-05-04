@@ -39,6 +39,8 @@ public class MiddlePanel extends JPanel implements KeyListener, ActionListener{
 		gameData.ufoImage.paintIcon(this, graphics, gameData.ufoPosX, gameData.ufoPosY);
 		gameData.meteorImage.paintIcon(this, graphics, gameData.meteorPosX, gameData.meteorPosY);
 		
+		
+		System.out.println("Score : "+gameData.score);
 		graphics.dispose();
 	}
 
@@ -53,10 +55,16 @@ public class MiddlePanel extends JPanel implements KeyListener, ActionListener{
 				
 			
 			if(gameData.ballRect.intersects(gameData.paddleRect)) {
-				gameData.ballVelocityY = -gameData.ballVelocityY;
+				// increase score when the ball hits the paddle
+				gameData.score++;
+				if(gameData.ballPosX + (gameData.ballRadius-1) <= gameData.paddlePosX ||  gameData.ballPosX + 1 >= gameData.paddlePosX + gameData.paddleWidth) {
+					gameData.ballVelocityX = -gameData.ballVelocityX;
+				} else {
+					gameData.ballVelocityY = -gameData.ballVelocityY;
+				}
 			}
 			if(gameData.ballRect.intersects(gameData.starRect)) {
-				if(gameData.ballPosX + (gameData.ballRadius-1) <= gameData.starPosX ||  gameData.ballPosX + 1 >= gameData.starPosX) {
+				if(gameData.ballPosX + (gameData.ballRadius-1) <= gameData.starPosX ||  gameData.ballPosX + 1 >= gameData.starPosX + gameData.starWidth) {
 					gameData.ballVelocityX = -gameData.ballVelocityX;
 				} else {
 					gameData.ballVelocityY = -gameData.ballVelocityY;
@@ -64,7 +72,7 @@ public class MiddlePanel extends JPanel implements KeyListener, ActionListener{
 				
 			}
 			if(gameData.ballRect.intersects(gameData.ufoRect)) {
-				if(gameData.ballPosX + (gameData.ballRadius-1) <= gameData.ufoPosX ||  gameData.ballPosX + 1 >= gameData.ufoPosX) {
+				if(gameData.ballPosX + (gameData.ballRadius-1) <= gameData.ufoPosX ||  gameData.ballPosX + 1 >= gameData.ufoPosX + gameData.ufoWidth) {
 					gameData.ballVelocityX = -gameData.ballVelocityX;
 				} else {
 					gameData.ballVelocityY = -gameData.ballVelocityY;
@@ -72,7 +80,7 @@ public class MiddlePanel extends JPanel implements KeyListener, ActionListener{
 				
 			}
 			if(gameData.ballRect.intersects(gameData.meteorRect)) {
-				if(gameData.ballPosX + (gameData.ballRadius-1) <= gameData.meteorPosX ||  gameData.ballPosX + 1 >= gameData.meteorPosX) {
+				if(gameData.ballPosX + (gameData.ballRadius-1) <= gameData.meteorPosX ||  gameData.ballPosX + 1 >= gameData.meteorPosX + gameData.meteorWidth) {
 					gameData.ballVelocityX = -gameData.ballVelocityX;
 				} else {
 					gameData.ballVelocityY = -gameData.ballVelocityY;
