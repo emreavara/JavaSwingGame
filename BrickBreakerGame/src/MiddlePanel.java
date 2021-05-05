@@ -32,18 +32,16 @@ public class MiddlePanel extends JPanel implements KeyListener, ActionListener{
 		graphics.setColor(Color.WHITE);
 		graphics.fillRect(0, 0, gameData.middlePanelWidth, gameData.middlePanelHeight);
 		
-		graphics.setColor(Color.blue);
+		graphics.setColor(Color.black);
 		graphics.fillRect(gameData.paddlePosX, gameData.paddlePosY, gameData.paddleWidth, gameData.paddleHeight);
 		
-		graphics.setColor(Color.MAGENTA);
-		graphics.fillOval(gameData.ballPosX, gameData.ballPosY, gameData.ballRadius, gameData.ballRadius);
+		graphics.setColor(Color.red);
+		graphics.fillOval(gameData.ballPosX, gameData.ballPosY, gameData.ballDiameter, gameData.ballDiameter);
 		
 		gameData.starImage.paintIcon(this, graphics, gameData.starPosX, gameData.starPosY);
 		gameData.ufoImage.paintIcon(this, graphics, gameData.ufoPosX, gameData.ufoPosY);
 		gameData.meteorImage.paintIcon(this, graphics, gameData.meteorPosX, gameData.meteorPosY);
 		
-		
-		System.out.println("Score : "+gameData.score);
 		graphics.dispose();
 	}
 
@@ -54,20 +52,20 @@ public class MiddlePanel extends JPanel implements KeyListener, ActionListener{
 			gameData.moveBall();
 			
 			gameData.paddleRect = new Rectangle(gameData.paddlePosX, gameData.paddlePosY, gameData.paddleWidth, gameData.paddleHeight);
-			gameData.ballRect   = new Rectangle(gameData.ballPosX, gameData.ballPosY, gameData.ballRadius, gameData.ballRadius);
+			gameData.ballRect   = new Rectangle(gameData.ballPosX, gameData.ballPosY, gameData.ballDiameter, gameData.ballDiameter);
 				
 			
 			if(gameData.ballRect.intersects(gameData.paddleRect)) {
 				// increase score when the ball hits the paddle
 				gameData.score++;
-				if(gameData.ballPosX + (gameData.ballRadius-1) <= gameData.paddlePosX ||  gameData.ballPosX + 1 >= gameData.paddlePosX + gameData.paddleWidth) {
+				if(gameData.ballPosX + (gameData.ballDiameter-1) <= gameData.paddlePosX ||  gameData.ballPosX + 1 >= gameData.paddlePosX + gameData.paddleWidth) {
 					gameData.ballVelocityX = -gameData.ballVelocityX;
 				} else {
 					gameData.ballVelocityY = -gameData.ballVelocityY;
 				}
 			}
 			if(gameData.ballRect.intersects(gameData.starRect)) {
-				if(gameData.ballPosX + (gameData.ballRadius-1) <= gameData.starPosX ||  gameData.ballPosX + 1 >= gameData.starPosX + gameData.starWidth) {
+				if(gameData.ballPosX + (gameData.ballDiameter-1) <= gameData.starPosX ||  gameData.ballPosX + 1 >= gameData.starPosX + gameData.starWidth) {
 					gameData.ballVelocityX = -gameData.ballVelocityX;
 				} else {
 					gameData.ballVelocityY = -gameData.ballVelocityY;
@@ -75,7 +73,7 @@ public class MiddlePanel extends JPanel implements KeyListener, ActionListener{
 				
 			}
 			if(gameData.ballRect.intersects(gameData.ufoRect)) {
-				if(gameData.ballPosX + (gameData.ballRadius-1) <= gameData.ufoPosX ||  gameData.ballPosX + 1 >= gameData.ufoPosX + gameData.ufoWidth) {
+				if(gameData.ballPosX + (gameData.ballDiameter-1) <= gameData.ufoPosX ||  gameData.ballPosX + 1 >= gameData.ufoPosX + gameData.ufoWidth) {
 					gameData.ballVelocityX = -gameData.ballVelocityX;
 				} else {
 					gameData.ballVelocityY = -gameData.ballVelocityY;
@@ -83,7 +81,7 @@ public class MiddlePanel extends JPanel implements KeyListener, ActionListener{
 				
 			}
 			if(gameData.ballRect.intersects(gameData.meteorRect)) {
-				if(gameData.ballPosX + (gameData.ballRadius-1) <= gameData.meteorPosX ||  gameData.ballPosX + 1 >= gameData.meteorPosX + gameData.meteorWidth) {
+				if(gameData.ballPosX + (gameData.ballDiameter-1) <= gameData.meteorPosX ||  gameData.ballPosX + 1 >= gameData.meteorPosX + gameData.meteorWidth) {
 					gameData.ballVelocityX = -gameData.ballVelocityX;
 				} else {
 					gameData.ballVelocityY = -gameData.ballVelocityY;

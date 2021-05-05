@@ -11,8 +11,6 @@ public class GameData{
 	 */
 	private static GameData gameData;
 	
-	GameStatus gameStatus = GameStatus.idle;
-	
 	private GameData() {}
 	public static GameData getInstance() {
 		if(gameData == null) {
@@ -20,6 +18,8 @@ public class GameData{
 		}
 		return gameData;
 	}
+	
+	GameStatus gameStatus = GameStatus.idle;
 	
 	// Main Window
 	int mainWindowWidth  = 1024;
@@ -42,6 +42,8 @@ public class GameData{
 	int remainingLife   = 3;
 	int delay           = 20;
 	int gameDuration    = 60;
+	float gravity       = 9.8f;
+	float velocityRatio = 0.1f;
 	
 	// Score
 	int scoreX          = 75;
@@ -78,8 +80,9 @@ public class GameData{
 	
 	// Ball
 	int ballRadius       = 10;
+	int ballDiameter     = 2*ballRadius;
 	int ballVelocityX    = 4;
-	int ballVelocityY    = 5;
+	float ballVelocityY  = 1;
 	int ballPosX         = 10;
 	int ballPosY         = 10;
 	
@@ -88,7 +91,7 @@ public class GameData{
 	int paddleHeight     = 10;
 	int paddleWidth      = 120;
 	int paddleVelocity   = 30;
-	int paddlePosX	     = mainWindowWidth/2;
+	int paddlePosX	     = mainWindowWidth/2 - paddleWidth/2;
 	int paddlePosY       = middlePanelHeight - 20;
 	
 	// Rectangles
@@ -106,14 +109,14 @@ public class GameData{
 		
 		// Ball
 		ballVelocityX    = 4;
-		ballVelocityY    = 3;
+		ballVelocityY    = 1;
 		ballPosX         = 10;
 		ballPosY         = 10;
 	}
 	
 	public void movePaddleLeft() {
 		gameStatus = GameStatus.playing;
-		if(paddlePosX < 0) {
+		if(paddlePosX - paddleVelocity < 0) {
 			paddlePosX = 0;
 		} else {
 			paddlePosX = paddlePosX - paddleVelocity;
@@ -123,8 +126,8 @@ public class GameData{
 	
 	public void movePaddleRight() {
 		gameStatus = GameStatus.playing;
-		if(paddlePosX > 904) {
-			paddlePosX = 904;
+		if(paddlePosX + paddleVelocity >  middlePanelWidth - paddleWidth) {
+			paddlePosX =  middlePanelWidth - paddleWidth;
 		} else {
 			paddlePosX = paddlePosX + paddleVelocity;
 		}
@@ -134,11 +137,12 @@ public class GameData{
 		gameStatus = GameStatus.playing;
 		
 		ballPosX = ballPosX + ballVelocityX;
-		ballPosY = ballPosY - ballVelocityY;
+		ballVelocityY = ballVelocityY - gravity*velocityRatio;
+		ballPosY = (int) (ballPosY - ballVelocityY);
 		if(ballPosX < 0) {
 			ballVelocityX = -ballVelocityX;
 		}
-		if(ballPosX + ballRadius > 1014) {
+		if(ballPosX + 2*ballRadius > middlePanelWidth - ballDiameter) {
 			ballVelocityX = -ballVelocityX;
 		}
 		if(ballPosY < 0) {
