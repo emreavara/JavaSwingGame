@@ -10,7 +10,7 @@ public class GameData{
 	 * 
 	 */
 	private static GameData gameData;
-	
+
 	private GameData() {}
 	public static GameData getInstance() {
 		if(gameData == null) {
@@ -43,7 +43,7 @@ public class GameData{
 	int delay           = 20;
 	int gameDuration    = 60;
 	float gravity       = 9.8f;
-	float velocityRatio = 0.1f;
+	float velocityRatio = 1/19.8f;
 	
 	// Score
 	int scoreX          = 75;
@@ -146,7 +146,8 @@ public class GameData{
 			ballVelocityX = -ballVelocityX;
 		}
 		if(ballPosY < 0) {
-			ballVelocityY = -ballVelocityY;
+			ballVelocityY = 0;
+			ballPosY      = 1;
 		}
 		
 	}
