@@ -4,6 +4,11 @@ import java.util.Random;
 import javax.swing.ImageIcon;
 
 public class GameData{
+	
+	/*
+	 * Game Data initialization of the game
+	 * 
+	 */
 	private static GameData gameData;
 	
 	GameStatus gameStatus = GameStatus.idle;
@@ -36,6 +41,7 @@ public class GameData{
 	int score           = 0;
 	int remainingLife   = 3;
 	int delay           = 20;
+	int gameDuration    = 60;
 	
 	// Score
 	int scoreX          = 75;

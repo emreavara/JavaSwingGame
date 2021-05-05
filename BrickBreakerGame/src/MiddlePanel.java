@@ -7,11 +7,14 @@ import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
-import javax.swing.ImageIcon;
 import javax.swing.JPanel;
 import javax.swing.Timer;
 
 public class MiddlePanel extends JPanel implements KeyListener, ActionListener{
+	/**
+	 * Create Middle Panel of the game and draw BrickBreaker Game
+	 */
+	private static final long serialVersionUID = -9221607621155120740L;
 	GameData gameData = GameData.getInstance();
 	private Timer timer;
 	
