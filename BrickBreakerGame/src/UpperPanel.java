@@ -8,6 +8,10 @@ import java.awt.event.ActionListener;
 import javax.swing.JPanel;
 
 public class UpperPanel extends JPanel{
+	/**
+	 * Upper Panel of the game for remaining time, remaining life and the score
+	 */
+	private static final long serialVersionUID = -8528292386960422440L;
 	GameData gameData = GameData.getInstance();
 	
 	public UpperPanel() {

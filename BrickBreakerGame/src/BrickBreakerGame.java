@@ -16,6 +16,8 @@ enum GameStatus{
 
 public class BrickBreakerGame extends JFrame {
 
+	private static final long serialVersionUID = -7548812467627648588L;
+
 	public static void main(String[] args) {
 		
 		GameData gameData       = GameData.getInstance();
