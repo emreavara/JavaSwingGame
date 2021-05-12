@@ -16,16 +16,17 @@ public class MiddlePanel extends JPanel implements KeyListener, ActionListener{
 	 */
 	private static final long serialVersionUID = -9221607621155120740L;
 	GameData gameData = GameData.getInstance();
-	private Timer timer;
+	
+	boolean timerFlag = true;
+	
 	
 	public MiddlePanel() {
 		setPreferredSize(new Dimension(gameData.middlePanelWidth, gameData.middlePanelHeight));
 		addKeyListener(this);
 		setFocusable(true);
 		setFocusTraversalKeysEnabled(false);
-		timer = new Timer(gameData.delay, this);
-		timer.start();
-		
+		gameData.timer = new Timer(gameData.delay, this);
+		gameData.timer.start();
 	}
 	
 	public void paint(Graphics graphics) {
@@ -42,13 +43,25 @@ public class MiddlePanel extends JPanel implements KeyListener, ActionListener{
 		gameData.ufoImage.paintIcon(this, graphics, gameData.ufoPosX, gameData.ufoPosY);
 		gameData.meteorImage.paintIcon(this, graphics, gameData.meteorPosX, gameData.meteorPosY);
 		
+		System.out.println("start Time : "+ gameData.startGameTime );
+		System.out.println("current Time : "+ System.currentTimeMillis() );
+		System.out.println("remaining Time : ");
+		
 		graphics.dispose();
 	}
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		timer.start();
+		gameData.timer.start();
 		if(gameData.gameStatus == GameStatus.playing) {
+			if(timerFlag) {
+				gameData.startGameTime = System.currentTimeMillis();
+				timerFlag = false;
+			}
+			gameData.remainingTime = (int)(gameData.gameDuration - (System.currentTimeMillis() - gameData.startGameTime)/1000);
+			if(System.currentTimeMillis() - gameData.startGameTime >=60000) {
+				gameData.gameStatus = GameStatus.gameOver;
+			}
 			gameData.moveBall();
 			
 			gameData.paddleRect = new Rectangle(gameData.paddlePosX, gameData.paddlePosY, gameData.paddleWidth, gameData.paddleHeight);
@@ -90,12 +103,7 @@ public class MiddlePanel extends JPanel implements KeyListener, ActionListener{
 			}
 			
 		}
-		
-		
-		
-		
 		repaint();
-		
 	}
 
 	@Override
@@ -108,7 +116,6 @@ public class MiddlePanel extends JPanel implements KeyListener, ActionListener{
 			gameData.movePaddleRight();
 		}
 	}
-	
 	@Override
 	public void keyReleased(KeyEvent e) {}
 	@Override

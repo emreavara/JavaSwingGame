@@ -2,6 +2,7 @@ import java.awt.Rectangle;
 import java.util.Random;
 
 import javax.swing.ImageIcon;
+import javax.swing.Timer;
 
 public class GameData{
 	
@@ -20,6 +21,10 @@ public class GameData{
 	}
 	
 	GameStatus gameStatus = GameStatus.idle;
+	
+	Timer timer;
+	Long startGameTime;
+	
 	
 	// Main Window
 	int mainWindowWidth  = 1024;
@@ -42,6 +47,7 @@ public class GameData{
 	int remainingLife   = 3;
 	int delay           = 20;
 	int gameDuration    = 60;
+	int remainingTime   = gameDuration;
 	float gravity       = 9.8f;
 	float velocityRatio = 1/19.8f;
 	

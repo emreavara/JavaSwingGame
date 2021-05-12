@@ -31,6 +31,11 @@ public class UpperPanel extends JPanel{
 		graphics.setFont(new Font("serif", Font.BOLD, 40));
 		graphics.drawString("♥".repeat(gameData.remainingLife), gameData.remainingLifeX, gameData.remainingLifeY);
 		
+		graphics.setColor(Color.red);
+		graphics.setFont(new Font("serif", Font.BOLD, 40));
+		graphics.drawString(""+(int)gameData.remainingTime, gameData.scoreX +200, gameData.scoreY);
+		
+		
 		graphics.dispose();
 		repaint();
 	}
