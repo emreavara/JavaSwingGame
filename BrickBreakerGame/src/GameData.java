@@ -60,10 +60,12 @@ public class GameData{
 	float gravity       = 9.8f;
 	float velocityRatio = 1/19.8f;
 	boolean timerFlag   = true;
+	boolean isBallIntersect = false;
 	
 	// Score
 	int scoreX          = 75;
 	int scoreY          = 60;
+	int bonusScore      = 5;
 	
 	// Life
 	int remainingLifeX  = mainWindowWidth/2 - 50;
@@ -95,12 +97,14 @@ public class GameData{
 		
 	
 	// Ball
+	
 	int ballRadius       = 10;
 	int ballDiameter     = 2*ballRadius;
 	int ballVelocityX    = 4;
 	float ballVelocityY  = 1;
 	int ballPosX         = 10;
 	int ballPosY         = 10;
+	float ballVelRatio   = 1.0f;
 	
 	// Paddle
 	
@@ -141,7 +145,7 @@ public class GameData{
 	}
 	
 	public void movePaddleRight() {
-		gameStatus = GameStatus.playing;
+		//gameStatus = GameStatus.playing;
 		if(paddlePosX + paddleVelocity >  middlePanelWidth - paddleWidth) {
 			paddlePosX =  middlePanelWidth - paddleWidth;
 		} else {
@@ -153,7 +157,7 @@ public class GameData{
 		//gameStatus = GameStatus.playing;
 		
 		ballPosX = ballPosX + ballVelocityX;
-		ballVelocityY = ballVelocityY - gravity*velocityRatio;
+		ballVelocityY = ballVelocityY - ballVelRatio*gravity*velocityRatio;
 		ballPosY = (int) (ballPosY - ballVelocityY);
 		if(ballPosX < 0) {
 			ballVelocityX = -ballVelocityX;

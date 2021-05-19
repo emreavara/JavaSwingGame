@@ -69,6 +69,7 @@ public class MiddlePanel extends JPanel implements KeyListener, ActionListener{
 				
 			
 			if(gameData.ballRect.intersects(gameData.paddleRect)) {
+				gameData.isBallIntersect = true;
 				// increase score when the ball hits the paddle
 				gameData.score++;
 				if(gameData.ballPosX + (gameData.ballDiameter-1) <= gameData.paddlePosX ||  gameData.ballPosX + 1 >= gameData.paddlePosX + gameData.paddleWidth) {
@@ -76,30 +77,41 @@ public class MiddlePanel extends JPanel implements KeyListener, ActionListener{
 				} else {
 					gameData.ballVelocityY = -gameData.ballVelocityY;
 				}
-			}
-			if(gameData.ballRect.intersects(gameData.starRect)) {
+			} else if(gameData.ballRect.intersects(gameData.starRect)) {
+				if(gameData.isBallIntersect == false) {
+					gameData.score += gameData.bonusScore;
+				}
+				gameData.isBallIntersect = true;
 				/*if(gameData.ballPosX + (gameData.ballDiameter-1) <= gameData.starPosX ||  gameData.ballPosX + 1 >= gameData.starPosX + gameData.starWidth) {
 					gameData.ballVelocityX = -gameData.ballVelocityX;
 				} else {
 					gameData.ballVelocityY = -gameData.ballVelocityY;
 				}*/
 				
-			}
-			if(gameData.ballRect.intersects(gameData.ufoRect)) {
+			} else if(gameData.ballRect.intersects(gameData.ufoRect)) {
+				if(gameData.isBallIntersect == false) {
+					gameData.remainingLife--;
+				}
+				gameData.isBallIntersect = true;
 				/*if(gameData.ballPosX + (gameData.ballDiameter-1) <= gameData.ufoPosX ||  gameData.ballPosX + 1 >= gameData.ufoPosX + gameData.ufoWidth) {
 					gameData.ballVelocityX = -gameData.ballVelocityX;
 				} else {
 					gameData.ballVelocityY = -gameData.ballVelocityY;
 				}*/
 				
-			}
-			if(gameData.ballRect.intersects(gameData.meteorRect)) {
+			} else if(gameData.ballRect.intersects(gameData.meteorRect)) {
+				if(gameData.isBallIntersect == false) {
+					gameData.ballVelRatio = 1.2f;
+				}
+				gameData.isBallIntersect = true;
 				/*if(gameData.ballPosX + (gameData.ballDiameter-1) <= gameData.meteorPosX ||  gameData.ballPosX + 1 >= gameData.meteorPosX + gameData.meteorWidth) {
 					gameData.ballVelocityX = -gameData.ballVelocityX;
 				} else {
 					gameData.ballVelocityY = -gameData.ballVelocityY;
 				}*/
 				
+			} else {
+				gameData.isBallIntersect = false;
 			}
 			
 		} else {
@@ -110,17 +122,24 @@ public class MiddlePanel extends JPanel implements KeyListener, ActionListener{
 
 	@Override
 	public void keyPressed(KeyEvent e) {
-		gameData.gameStatus = GameStatus.playing;
-		if(e.getKeyCode() == KeyEvent.VK_LEFT) {
-			if(gameData.gameStatus == GameStatus.playing) {
-				gameData.movePaddleLeft();
+		if(e.getKeyCode() == KeyEvent.VK_ENTER) {
+			if(gameData.gameStatus != GameStatus.pause) {
+				gameData.gameStatus = GameStatus.playing;
 			}
 		}
-		if(e.getKeyCode() == KeyEvent.VK_RIGHT) {
-			if(gameData.gameStatus == GameStatus.playing) {
-				gameData.movePaddleRight();
+		if(gameData.gameStatus == GameStatus.playing) {
+			if(e.getKeyCode() == KeyEvent.VK_LEFT) {
+				if(gameData.gameStatus == GameStatus.playing) {
+					gameData.movePaddleLeft();
+				}
+			}
+			if(e.getKeyCode() == KeyEvent.VK_RIGHT) {
+				if(gameData.gameStatus == GameStatus.playing) {
+					gameData.movePaddleRight();
+				}
 			}
 		}
+		
 	}
 	@Override
 	public void keyReleased(KeyEvent e) {}
