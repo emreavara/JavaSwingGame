@@ -17,9 +17,6 @@ public class MiddlePanel extends JPanel implements KeyListener, ActionListener{
 	private static final long serialVersionUID = -9221607621155120740L;
 	GameData gameData = GameData.getInstance();
 	
-	boolean timerFlag = true;
-	
-	
 	public MiddlePanel() {
 		setPreferredSize(new Dimension(gameData.middlePanelWidth, gameData.middlePanelHeight));
 		addKeyListener(this);
@@ -53,15 +50,12 @@ public class MiddlePanel extends JPanel implements KeyListener, ActionListener{
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		gameData.timer.start();
-		if(gameData.gameStatus == GameStatus.playing) {
-			if(timerFlag) {
+		if(gameData.gameStatus == GameStatus.playing && (gameData.passedTimeTemp + gameData.passedTime) < gameData.gameDuration ) {
+			if(gameData.timerFlag) {
 				gameData.startGameTime = System.currentTimeMillis();
-				timerFlag = false;
+				gameData.timerFlag = false;
 			}
-			gameData.remainingTime = (int)(gameData.gameDuration - (System.currentTimeMillis() - gameData.startGameTime)/1000);
-			if(System.currentTimeMillis() - gameData.startGameTime >=60000) {
-				gameData.gameStatus = GameStatus.gameOver;
-			}
+			gameData.passedTimeTemp = (int)((System.currentTimeMillis() - gameData.startGameTime)/1000); // Millisecond to second
 			gameData.moveBall();
 			
 			gameData.paddleRect = new Rectangle(gameData.paddlePosX, gameData.paddlePosY, gameData.paddleWidth, gameData.paddleHeight);
@@ -78,30 +72,32 @@ public class MiddlePanel extends JPanel implements KeyListener, ActionListener{
 				}
 			}
 			if(gameData.ballRect.intersects(gameData.starRect)) {
-				if(gameData.ballPosX + (gameData.ballDiameter-1) <= gameData.starPosX ||  gameData.ballPosX + 1 >= gameData.starPosX + gameData.starWidth) {
+				/*if(gameData.ballPosX + (gameData.ballDiameter-1) <= gameData.starPosX ||  gameData.ballPosX + 1 >= gameData.starPosX + gameData.starWidth) {
 					gameData.ballVelocityX = -gameData.ballVelocityX;
 				} else {
 					gameData.ballVelocityY = -gameData.ballVelocityY;
-				}
+				}*/
 				
 			}
 			if(gameData.ballRect.intersects(gameData.ufoRect)) {
-				if(gameData.ballPosX + (gameData.ballDiameter-1) <= gameData.ufoPosX ||  gameData.ballPosX + 1 >= gameData.ufoPosX + gameData.ufoWidth) {
+				/*if(gameData.ballPosX + (gameData.ballDiameter-1) <= gameData.ufoPosX ||  gameData.ballPosX + 1 >= gameData.ufoPosX + gameData.ufoWidth) {
 					gameData.ballVelocityX = -gameData.ballVelocityX;
 				} else {
 					gameData.ballVelocityY = -gameData.ballVelocityY;
-				}
+				}*/
 				
 			}
 			if(gameData.ballRect.intersects(gameData.meteorRect)) {
-				if(gameData.ballPosX + (gameData.ballDiameter-1) <= gameData.meteorPosX ||  gameData.ballPosX + 1 >= gameData.meteorPosX + gameData.meteorWidth) {
+				/*if(gameData.ballPosX + (gameData.ballDiameter-1) <= gameData.meteorPosX ||  gameData.ballPosX + 1 >= gameData.meteorPosX + gameData.meteorWidth) {
 					gameData.ballVelocityX = -gameData.ballVelocityX;
 				} else {
 					gameData.ballVelocityY = -gameData.ballVelocityY;
-				}
+				}*/
 				
 			}
 			
+		} else {
+			gameData.gameStatus = GameStatus.gameOver;
 		}
 		repaint();
 	}
@@ -110,10 +106,14 @@ public class MiddlePanel extends JPanel implements KeyListener, ActionListener{
 	public void keyPressed(KeyEvent e) {
 		gameData.gameStatus = GameStatus.playing;
 		if(e.getKeyCode() == KeyEvent.VK_LEFT) {
-			gameData.movePaddleLeft();
+			if(gameData.gameStatus == GameStatus.playing) {
+				gameData.movePaddleLeft();
+			}
 		}
 		if(e.getKeyCode() == KeyEvent.VK_RIGHT) {
-			gameData.movePaddleRight();
+			if(gameData.gameStatus == GameStatus.playing) {
+				gameData.movePaddleRight();
+			}
 		}
 	}
 	@Override

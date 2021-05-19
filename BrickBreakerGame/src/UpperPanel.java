@@ -33,7 +33,7 @@ public class UpperPanel extends JPanel{
 		
 		graphics.setColor(Color.red);
 		graphics.setFont(new Font("serif", Font.BOLD, 40));
-		graphics.drawString(""+(int)gameData.remainingTime, gameData.scoreX +200, gameData.scoreY);
+		graphics.drawString(""+ (gameData.gameDuration - (gameData.passedTime + gameData.passedTimeTemp)), gameData.scoreX +800, gameData.scoreY);
 		
 		
 		graphics.dispose();

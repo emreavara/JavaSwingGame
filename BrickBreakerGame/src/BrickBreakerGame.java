@@ -8,12 +8,6 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.Timer;
 
-enum GameStatus{
-	idle,
-	playing,
-	gameOver
-};
-
 public class BrickBreakerGame extends JFrame {
 
 	private static final long serialVersionUID = -7548812467627648588L;
@@ -24,8 +18,7 @@ public class BrickBreakerGame extends JFrame {
 		
 		UpperPanel upperPanel   = new UpperPanel();
 		MiddlePanel middlePanel = new MiddlePanel();
-		LowerPanel lowerPanel     = new LowerPanel();
-		
+		LowerPanel lowerPanel   = new LowerPanel();
 		
 		JFrame gameWindow       = new JFrame();
 		gameWindow.setLayout(new BorderLayout());

@@ -4,6 +4,14 @@ import java.util.Random;
 import javax.swing.ImageIcon;
 import javax.swing.Timer;
 
+enum GameStatus{
+	idle,
+	playing,
+	pause,
+	gameOver
+};
+
+
 public class GameData{
 	
 	/*
@@ -47,9 +55,11 @@ public class GameData{
 	int remainingLife   = 3;
 	int delay           = 20;
 	int gameDuration    = 60;
-	int remainingTime   = gameDuration;
+	int passedTime      = 0;
+	int passedTimeTemp  = 0;
 	float gravity       = 9.8f;
 	float velocityRatio = 1/19.8f;
+	boolean timerFlag   = true;
 	
 	// Score
 	int scoreX          = 75;
@@ -121,7 +131,7 @@ public class GameData{
 	}
 	
 	public void movePaddleLeft() {
-		gameStatus = GameStatus.playing;
+		//gameStatus = GameStatus.playing;
 		if(paddlePosX - paddleVelocity < 0) {
 			paddlePosX = 0;
 		} else {
@@ -131,7 +141,7 @@ public class GameData{
 	}
 	
 	public void movePaddleRight() {
-		gameStatus = GameStatus.playing;
+		//gameStatus = GameStatus.playing;
 		if(paddlePosX + paddleVelocity >  middlePanelWidth - paddleWidth) {
 			paddlePosX =  middlePanelWidth - paddleWidth;
 		} else {
@@ -140,7 +150,7 @@ public class GameData{
 	}
 	
 	public void moveBall() {
-		gameStatus = GameStatus.playing;
+		//gameStatus = GameStatus.playing;
 		
 		ballPosX = ballPosX + ballVelocityX;
 		ballVelocityY = ballVelocityY - gravity*velocityRatio;
@@ -154,6 +164,18 @@ public class GameData{
 		if(ballPosY < 0) {
 			ballVelocityY = 0;
 			ballPosY      = 1;
+		}
+		
+	}
+	
+	public void startStopTimer() {
+		if(gameStatus == GameStatus.playing) {
+			gameStatus     = GameStatus.pause;
+			passedTime     += passedTimeTemp;
+			passedTimeTemp = 0;
+		} else {
+			gameStatus     = GameStatus.playing;
+			timerFlag      = true;
 		}
 		
 	}
