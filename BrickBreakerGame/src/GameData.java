@@ -54,9 +54,11 @@ public class GameData{
 	int score           = 0;
 	int remainingLife   = 3;
 	int delay           = 20;
-	int gameDuration    = 60;
+	int gameDuration    = 6;
+	int gameLevel       = 1;
 	int passedTime      = 0;
 	int passedTimeTemp  = 0;
+	int remainingTime   = gameDuration;
 	float gravity       = 9.8f;
 	float velocityRatio = 1/19.8f;
 	boolean timerFlag   = true;
@@ -154,11 +156,21 @@ public class GameData{
 	}
 	
 	public void moveBall() {
-		//gameStatus = GameStatus.playing;
 		
-		ballPosX = ballPosX + ballVelocityX;
-		ballVelocityY = ballVelocityY - ballVelRatio*gravity*velocityRatio;
-		ballPosY = (int) (ballPosY - ballVelocityY);
+		switch(gameLevel) {
+		case 1:
+			ballPosX = ballPosX + ballVelocityX;
+			ballVelocityY = ballVelocityY - ballVelRatio*gravity*velocityRatio;
+			ballPosY = (int) (ballPosY - ballVelocityY);
+			break;
+		case 2:
+			ballPosX = ballPosX + ballVelocityX*gameLevel;
+			ballVelocityY = ballVelocityY - ballVelRatio*gravity*velocityRatio*gameLevel;
+			ballPosY = (int) (ballPosY - ballVelocityY);
+			break;
+		}
+		
+		
 		if(ballPosX < 0) {
 			ballVelocityX = -ballVelocityX;
 		}

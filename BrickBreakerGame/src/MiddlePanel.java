@@ -53,8 +53,9 @@ public class MiddlePanel extends JPanel implements KeyListener, ActionListener{
 		if(gameData.remainingLife == 0) {
 			gameData.gameStatus = GameStatus.gameOver;
 		}
-		if ((gameData.passedTimeTemp + gameData.passedTime) >= gameData.gameDuration) {
-			gameData.gameStatus = GameStatus.gameOver;
+		if (gameData.remainingTime <= 0) {
+			gameData.gameLevel = 2;
+			gameData.remainingTime = 0;
 		}
 		if(gameData.gameStatus == GameStatus.playing) {
 			if(gameData.timerFlag) {
@@ -62,6 +63,7 @@ public class MiddlePanel extends JPanel implements KeyListener, ActionListener{
 				gameData.timerFlag = false;
 			}
 			gameData.passedTimeTemp = (int)((System.currentTimeMillis() - gameData.startGameTime)/1000); // Millisecond to second
+			gameData.remainingTime = gameData.gameDuration - (gameData.passedTime + gameData.passedTimeTemp);
 			gameData.moveBall();
 			
 			gameData.paddleRect = new Rectangle(gameData.paddlePosX, gameData.paddlePosY, gameData.paddleWidth, gameData.paddleHeight);
@@ -82,34 +84,16 @@ public class MiddlePanel extends JPanel implements KeyListener, ActionListener{
 					gameData.score += gameData.bonusScore;
 				}
 				gameData.isBallIntersect = true;
-				/*if(gameData.ballPosX + (gameData.ballDiameter-1) <= gameData.starPosX ||  gameData.ballPosX + 1 >= gameData.starPosX + gameData.starWidth) {
-					gameData.ballVelocityX = -gameData.ballVelocityX;
-				} else {
-					gameData.ballVelocityY = -gameData.ballVelocityY;
-				}*/
-				
 			} else if(gameData.ballRect.intersects(gameData.ufoRect)) {
 				if(gameData.isBallIntersect == false) {
 					gameData.remainingLife--;
 				}
 				gameData.isBallIntersect = true;
-				/*if(gameData.ballPosX + (gameData.ballDiameter-1) <= gameData.ufoPosX ||  gameData.ballPosX + 1 >= gameData.ufoPosX + gameData.ufoWidth) {
-					gameData.ballVelocityX = -gameData.ballVelocityX;
-				} else {
-					gameData.ballVelocityY = -gameData.ballVelocityY;
-				}*/
-				
 			} else if(gameData.ballRect.intersects(gameData.meteorRect)) {
 				if(gameData.isBallIntersect == false) {
-					gameData.ballVelRatio = 1.2f;
+					gameData.ballVelRatio = gameData.ballVelRatio*1.2f;
 				}
 				gameData.isBallIntersect = true;
-				/*if(gameData.ballPosX + (gameData.ballDiameter-1) <= gameData.meteorPosX ||  gameData.ballPosX + 1 >= gameData.meteorPosX + gameData.meteorWidth) {
-					gameData.ballVelocityX = -gameData.ballVelocityX;
-				} else {
-					gameData.ballVelocityY = -gameData.ballVelocityY;
-				}*/
-				
 			} else {
 				gameData.isBallIntersect = false;
 			}
