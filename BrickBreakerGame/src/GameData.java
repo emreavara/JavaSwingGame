@@ -141,7 +141,7 @@ public class GameData{
 	}
 	
 	public void movePaddleRight() {
-		//gameStatus = GameStatus.playing;
+		gameStatus = GameStatus.playing;
 		if(paddlePosX + paddleVelocity >  middlePanelWidth - paddleWidth) {
 			paddlePosX =  middlePanelWidth - paddleWidth;
 		} else {
@@ -165,6 +165,15 @@ public class GameData{
 			ballVelocityY = 0;
 			ballPosY      = 1;
 		}
+		if(ballPosY > middlePanelHeight) {
+			remainingLife--;
+			ballVelocityX    = 4;
+			ballVelocityY    = 1;
+			ballPosX         = 10;
+			ballPosY         = 10;
+			
+		}
+		
 		
 	}
 	

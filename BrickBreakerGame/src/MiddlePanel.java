@@ -50,7 +50,13 @@ public class MiddlePanel extends JPanel implements KeyListener, ActionListener{
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		gameData.timer.start();
-		if(gameData.gameStatus == GameStatus.playing && (gameData.passedTimeTemp + gameData.passedTime) < gameData.gameDuration ) {
+		if(gameData.remainingLife == 0) {
+			gameData.gameStatus = GameStatus.gameOver;
+		}
+		if ((gameData.passedTimeTemp + gameData.passedTime) >= gameData.gameDuration) {
+			gameData.gameStatus = GameStatus.gameOver;
+		}
+		if(gameData.gameStatus == GameStatus.playing) {
 			if(gameData.timerFlag) {
 				gameData.startGameTime = System.currentTimeMillis();
 				gameData.timerFlag = false;
