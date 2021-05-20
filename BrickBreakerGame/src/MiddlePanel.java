@@ -6,6 +6,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.util.Random;
 
 import javax.swing.JPanel;
 import javax.swing.Timer;
@@ -16,6 +17,8 @@ public class MiddlePanel extends JPanel implements KeyListener, ActionListener{
 	 */
 	private static final long serialVersionUID = -9221607621155120740L;
 	GameData gameData = GameData.getInstance();
+	
+	Random random = new Random();
 	
 	public MiddlePanel() {
 		setPreferredSize(new Dimension(gameData.middlePanelWidth, gameData.middlePanelHeight));
@@ -40,23 +43,12 @@ public class MiddlePanel extends JPanel implements KeyListener, ActionListener{
 		gameData.ufoImage.paintIcon(this, graphics, gameData.ufoPosX, gameData.ufoPosY);
 		gameData.meteorImage.paintIcon(this, graphics, gameData.meteorPosX, gameData.meteorPosY);
 		
-		System.out.println("start Time : "+ gameData.startGameTime );
-		System.out.println("current Time : "+ System.currentTimeMillis() );
-		System.out.println("remaining Time : ");
-		
 		graphics.dispose();
 	}
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		gameData.timer.start();
-		if(gameData.remainingLife == 0) {
-			gameData.gameStatus = GameStatus.gameOver;
-		}
-		if (gameData.remainingTime <= 0) {
-			gameData.gameLevel = 2;
-			gameData.remainingTime = 0;
-		}
 		if(gameData.gameStatus == GameStatus.playing) {
 			if(gameData.timerFlag) {
 				gameData.startGameTime = System.currentTimeMillis();
@@ -68,7 +60,19 @@ public class MiddlePanel extends JPanel implements KeyListener, ActionListener{
 			
 			gameData.paddleRect = new Rectangle(gameData.paddlePosX, gameData.paddlePosY, gameData.paddleWidth, gameData.paddleHeight);
 			gameData.ballRect   = new Rectangle(gameData.ballPosX, gameData.ballPosY, gameData.ballDiameter, gameData.ballDiameter);
-				
+			
+			if(gameData.starRect.intersects(gameData.ufoRect)) {
+				gameData.starPosX        = random.nextInt(gameData.maxIconRangeX) + gameData.iconMargin;
+				gameData.starPosY 		= random.nextInt(gameData.maxIconRangeY) + gameData.iconMargin;
+			}
+			if(gameData.starRect.intersects(gameData.meteorRect)) {
+				gameData.meteorPosX        = random.nextInt(gameData.maxIconRangeX) + gameData.iconMargin;
+				gameData.meteorPosY 		= random.nextInt(gameData.maxIconRangeY) + gameData.iconMargin;
+			}
+			if(gameData.ufoRect.intersects(gameData.meteorRect)) {
+				gameData.ufoPosX        = random.nextInt(gameData.maxIconRangeX) + gameData.iconMargin;
+				gameData.ufoPosY 		= random.nextInt(gameData.maxIconRangeY) + gameData.iconMargin;
+			}
 			
 			if(gameData.ballRect.intersects(gameData.paddleRect)) {
 				gameData.isBallIntersect = true;
@@ -98,19 +102,19 @@ public class MiddlePanel extends JPanel implements KeyListener, ActionListener{
 				gameData.isBallIntersect = false;
 			}
 			
-		} else {
+		}
+		if(gameData.remainingLife == 0) {
 			gameData.gameStatus = GameStatus.gameOver;
+		}
+		if (gameData.remainingTime <= 0) {
+			gameData.gameLevel = 2;
+			gameData.remainingTime = 0;
 		}
 		repaint();
 	}
 
 	@Override
 	public void keyPressed(KeyEvent e) {
-		if(e.getKeyCode() == KeyEvent.VK_ENTER) {
-			if(gameData.gameStatus != GameStatus.pause) {
-				gameData.gameStatus = GameStatus.playing;
-			}
-		}
 		if(gameData.gameStatus == GameStatus.playing) {
 			if(e.getKeyCode() == KeyEvent.VK_LEFT) {
 				if(gameData.gameStatus == GameStatus.playing) {
@@ -123,7 +127,6 @@ public class MiddlePanel extends JPanel implements KeyListener, ActionListener{
 				}
 			}
 		}
-		
 	}
 	@Override
 	public void keyReleased(KeyEvent e) {}

@@ -5,9 +5,8 @@ import javax.swing.ImageIcon;
 import javax.swing.Timer;
 
 enum GameStatus{
-	idle,
-	playing,
 	pause,
+	playing,
 	gameOver
 };
 
@@ -28,7 +27,7 @@ public class GameData{
 		return gameData;
 	}
 	
-	GameStatus gameStatus = GameStatus.idle;
+	GameStatus gameStatus = GameStatus.pause;
 	
 	Timer timer;
 	Long startGameTime;
@@ -48,13 +47,13 @@ public class GameData{
 	
 	// Middle Panel
 	int middlePanelWidth  = mainWindowWidth;
-	int middlePanelHeight = mainWindowHeight - (upperPanelHeight + lowerPanelHeight + 35 ); // I have no idea why 35 ???
+	int middlePanelHeight = mainWindowHeight - (upperPanelHeight + lowerPanelHeight + 35 );
 	
 	// Game
 	int score           = 0;
 	int remainingLife   = 3;
 	int delay           = 20;
-	int gameDuration    = 6;
+	int gameDuration    = 60 ;
 	int gameLevel       = 1;
 	int passedTime      = 0;
 	int passedTimeTemp  = 0;
@@ -82,18 +81,22 @@ public class GameData{
 	
 	Random random = new Random();
 	
-	int starPosX        = random.nextInt(950) + 50;
-	int starPosY 		= random.nextInt(200) + 50;
+	int maxIconRangeX   = 850;
+	int maxIconRangeY   = 150;
+	int iconMargin      = 70;
+	
+	int starPosX        = random.nextInt(maxIconRangeX) + iconMargin;
+	int starPosY 		= random.nextInt(maxIconRangeY) + iconMargin;
 	int starWidth		= starImage.getIconWidth();
 	int starHeight      = starImage.getIconHeight();
 	
-	int ufoPosX         = random.nextInt(950) + 50;
-	int ufoPosY 		= random.nextInt(200) + 50;
+	int ufoPosX         = random.nextInt(maxIconRangeX) + iconMargin;
+	int ufoPosY 		= random.nextInt(maxIconRangeY) + iconMargin;
 	int ufoWidth		= ufoImage.getIconWidth();
 	int ufoHeight       = ufoImage.getIconHeight();
 	
-	int meteorPosX      = random.nextInt(950) + 50;
-	int meteorPosY 		= random.nextInt(200) + 50;
+	int meteorPosX      = random.nextInt(maxIconRangeX) + iconMargin;
+	int meteorPosY 		= random.nextInt(maxIconRangeY) + iconMargin;
 	int meteorWidth		= meteorImage.getIconWidth();
 	int meteorHeight    = meteorImage.getIconHeight();
 		
@@ -125,7 +128,7 @@ public class GameData{
 		
 	public void resetGame() {
 		// Game
-		gameStatus       = GameStatus.idle;
+		gameStatus       = GameStatus.pause;
 		score            = 0;
 		remainingLife    = 3;
 		
@@ -134,6 +137,20 @@ public class GameData{
 		ballVelocityY    = 1;
 		ballPosX         = 10;
 		ballPosY         = 10;
+		
+		// Paddle
+		paddlePosX	     = mainWindowWidth/2 - paddleWidth/2;
+		paddlePosY       = middlePanelHeight - 20;
+		
+		// Icons
+		starPosX        = random.nextInt(maxIconRangeX) + iconMargin;
+		starPosY 		= random.nextInt(maxIconRangeY) + iconMargin;
+		
+		ufoPosX         = random.nextInt(maxIconRangeX) + iconMargin;
+		ufoPosY 		= random.nextInt(maxIconRangeY) + iconMargin;
+		
+		meteorPosX      = random.nextInt(maxIconRangeX) + iconMargin;
+		meteorPosY 		= random.nextInt(maxIconRangeY) + iconMargin;
 	}
 	
 	public void movePaddleLeft() {
@@ -164,8 +181,8 @@ public class GameData{
 			ballPosY = (int) (ballPosY - ballVelocityY);
 			break;
 		case 2:
-			ballPosX = ballPosX + ballVelocityX*gameLevel;
-			ballVelocityY = ballVelocityY - ballVelRatio*gravity*velocityRatio*gameLevel;
+			ballPosX = ballPosX + ballVelocityX;
+			ballVelocityY = ballVelocityY - ballVelRatio*gravity*velocityRatio*1.5f;
 			ballPosY = (int) (ballPosY - ballVelocityY);
 			break;
 		}
@@ -198,9 +215,14 @@ public class GameData{
 			gameStatus     = GameStatus.pause;
 			passedTime     += passedTimeTemp;
 			passedTimeTemp = 0;
-		} else {
+		} else if (gameStatus == GameStatus.pause){
 			gameStatus     = GameStatus.playing;
 			timerFlag      = true;
+		} else if((gameStatus == GameStatus.gameOver)) {
+			resetGame();
+			gameStatus     = GameStatus.playing;
+			timerFlag      = true;
+			
 		}
 		
 	}

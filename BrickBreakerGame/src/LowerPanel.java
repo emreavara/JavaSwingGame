@@ -25,11 +25,10 @@ public class LowerPanel extends JPanel{
 			gameData.startStopTimer();
 		});
 		add(startStopButton);
-		
-		setVisible(true);
+		setFocusable(false);
 	}
 	
-	public void paint(Graphics graphics) {
+	public void paintComponent(Graphics graphics) {
 		graphics.setColor(Color.LIGHT_GRAY);
 		graphics.fillRect(0, 0, lowerPanelWidth, lowerPanelHeight);
 	}

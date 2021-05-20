@@ -16,6 +16,7 @@ public class UpperPanel extends JPanel{
 	
 	public UpperPanel() {
 		setPreferredSize(new Dimension(gameData.upperPanelWidth, gameData.upperPanelHeight));
+		setFocusable(false);
 	}
 	
 	public void paint(Graphics graphics) {
